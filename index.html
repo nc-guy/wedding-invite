@@ -6,10 +6,14 @@
 <title>You're Invited</title>
 
 <!-- Link preview card (shows automatically when this link is shared on WhatsApp/etc) -->
-<!-- EDIT: replace the og:image URL below with your live GitHub Pages link + assets/preview.jpg -->
-<meta property="og:title" content="You're Invited to Our Wedding! 💍">
-<meta property="og:description" content="Tap to open your personal invitation ✨">
+<!-- EDIT: keep these in sync with CONFIG below — meta tags are static text, so even -->
+<!-- guests who never tap the link still see the couple, date & venue right here -->
+<!-- IMAGE TIP: use a photo roughly 1200x630px (landscape) for the biggest, clearest card -->
+<meta property="og:title" content="Priyanka & Shyam are getting married! 💍">
+<meta property="og:description" content="25th Nov 2026 • Sri Jagannath Banquet Hall, Ranchi. Tap to open your invitation ✨">
 <meta property="og:image" content="https://nc-guy.github.io/wedding-invite/assets/preview.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
 <meta property="og:type" content="website">
 <meta name="twitter:card" content="summary_large_image">
 
@@ -323,16 +327,24 @@
     margin-top: 6px;
   }
 
-  .guest-line {
+  .guest-block {
+    margin-top: 14px;
+  }
+  .guest-label {
     font-family: 'Cormorant Garamond', serif;
     font-style: italic;
-    font-size: 18px;
-    margin-top: 14px;
+    font-size: 15px;
     color: #6b4a2a;
+    letter-spacing: 0.01em;
   }
   .guest-name {
-    font-weight: 600;
+    display: block;
+    font-family: 'Yeseva One', cursive;
+    font-size: clamp(24px, 6.5vw, 32px);
+    line-height: 1.3;
     color: var(--maroon);
+    margin-top: 4px;
+    text-shadow: 0 1px 0 rgba(255,255,255,0.4);
   }
 
   .names {
@@ -541,7 +553,12 @@
 
     <div class="eyebrow">Together with their families</div>
 
-    <p class="guest-line">Dearest <span class="guest-name" id="guestName">Guest</span>,<br>we joyfully invite you to celebrate</p>
+    <div class="guest-block">
+      <div class="guest-label">With love, this invitation is written for</div>
+      <span class="guest-name" id="guestName">Our Beloved Guest</span>
+    </div>
+
+    <div class="eyebrow" style="margin-top:14px;">To celebrate the wedding of</div>
 
     <h1 class="names">
       <span id="brideName">Ananya</span>
