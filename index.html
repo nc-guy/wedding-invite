@@ -4,6 +4,15 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 <title>You're Invited</title>
+
+<!-- Link preview card (shows automatically when this link is shared on WhatsApp/etc) -->
+<!-- EDIT: replace the og:image URL below with your live GitHub Pages link + assets/preview.jpg -->
+<meta property="og:title" content="You're Invited to Our Wedding! 💍">
+<meta property="og:description" content="Tap to open your personal invitation ✨">
+<meta property="og:image" content="https://nc-guy.github.io/wedding-invite/assets/preview.jpg">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Cinzel:wght@500;600&family=Poppins:wght@300;400;500&family=Yeseva+One&display=swap" rel="stylesheet">
 <style>
@@ -182,7 +191,7 @@
     background: linear-gradient(180deg, var(--ivory), #f4e9d0);
     color: var(--maroon-deep);
     border-radius: 10px;
-    padding: 40px 30px 34px;
+    padding: 34px 28px 30px;
     text-align: center;
     position: relative;
     box-shadow: 0 30px 80px rgba(0,0,0,0.5);
@@ -207,6 +216,95 @@
   }
   .panel::before { top: 14px; }
   .panel::after { bottom: 14px; }
+
+  /* ornate double-line frame */
+  .frame-inner {
+    position: absolute;
+    inset: 8px;
+    border: 1px solid var(--gold);
+    border-radius: 6px;
+    pointer-events: none;
+  }
+  .frame-inner::after {
+    content: "";
+    position: absolute;
+    inset: 5px;
+    border: 1px solid rgba(92,26,36,0.25);
+    border-radius: 4px;
+  }
+
+  /* gold paisley corner ornaments */
+  .corner {
+    position: absolute;
+    width: 34px;
+    height: 34px;
+    opacity: 0.9;
+  }
+  .corner svg { width: 100%; height: 100%; }
+  .corner.tl { top: 10px; left: 10px; }
+  .corner.tr { top: 10px; right: 10px; transform: scaleX(-1); }
+  .corner.bl { bottom: 10px; left: 10px; transform: scaleY(-1); }
+  .corner.br { bottom: 10px; right: 10px; transform: scale(-1,-1); }
+
+  /* mandala glow behind envelope */
+  .mandala-bg {
+    position: absolute;
+    width: 420px;
+    height: 420px;
+    top: 50%; left: 50%;
+    transform: translate(-50%,-50%);
+    z-index: 0;
+    opacity: 0.16;
+    animation: spin 90s linear infinite;
+    pointer-events: none;
+  }
+  @keyframes spin { to { transform: translate(-50%,-50%) rotate(360deg); } }
+
+  /* mandap-style top arch above the eyebrow */
+  .arch { width: 100%; height: 24px; margin-bottom: 0; }
+  .arch svg { width: 100%; height: 100%; }
+
+  .invocation {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+    margin: 2px 0 6px;
+  }
+  .invocation .om {
+    font-size: 20px;
+    color: var(--gold);
+    line-height: 1;
+  }
+  .invocation-text {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 13px;
+    letter-spacing: 0.05em;
+    color: #8a6a45;
+  }
+
+  .toran { width: 100%; height: 26px; margin-bottom: 4px; }
+  .toran svg { width: 100%; height: 100%; }
+
+  /* music toggle */
+  .music-toggle {
+    position: fixed;
+    top: 16px; right: 16px;
+    width: 42px; height: 42px;
+    border-radius: 50%;
+    background: rgba(92,26,36,0.85);
+    border: 1px solid var(--gold);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 20;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .music-toggle svg { width: 20px; height: 20px; }
+  .music-toggle .bar { animation: eq 0.8s ease-in-out infinite; transform-origin: bottom; }
+  .music-toggle.paused .bar { animation-play-state: paused; }
+  @keyframes eq { 0%,100%{ transform: scaleY(0.4);} 50%{ transform: scaleY(1);} }
 
   .feather-wrap { width: 92px; height: 92px; margin: 0 auto 6px; }
   .feather-wrap svg path {
@@ -351,7 +449,26 @@
 </head>
 <body>
 
+<div class="music-toggle paused" id="musicToggle" title="Play music">
+  <svg viewBox="0 0 24 24" fill="none">
+    <rect class="bar" x="4" y="10" width="3" height="8" rx="1.5" fill="#e6cd8b" style="animation-delay:0s"/>
+    <rect class="bar" x="10.5" y="6" width="3" height="12" rx="1.5" fill="#e6cd8b" style="animation-delay:0.15s"/>
+    <rect class="bar" x="17" y="9" width="3" height="9" rx="1.5" fill="#e6cd8b" style="animation-delay:0.3s"/>
+  </svg>
+</div>
+<audio id="bgMusic" loop preload="none">
+  <source src="assets/music.mp3" type="audio/mpeg">
+</audio>
+
 <div class="stage" id="stage">
+  <svg class="mandala-bg" viewBox="0 0 200 200" fill="none">
+    <g stroke="#c9a24b" stroke-width="0.6">
+      <circle cx="100" cy="100" r="90"/>
+      <circle cx="100" cy="100" r="70"/>
+      <circle cx="100" cy="100" r="50"/>
+      <g id="petalsMandala"></g>
+    </g>
+  </svg>
   <div class="envelope-wrap" id="envelopeWrap">
     <div class="envelope" id="envelope">
       <div class="env-body"></div>
@@ -369,6 +486,49 @@
   </div>
 
   <div class="panel" id="panel">
+    <div class="frame-inner"></div>
+    <div class="corner tl"><svg viewBox="0 0 34 34" fill="none"><path d="M2 2 C10 2 14 6 14 14 C14 6 22 2 30 2" stroke="#c9a24b" stroke-width="1.4"/><circle cx="14" cy="14" r="2" fill="#c9a24b"/></svg></div>
+    <div class="corner tr"><svg viewBox="0 0 34 34" fill="none"><path d="M2 2 C10 2 14 6 14 14 C14 6 22 2 30 2" stroke="#c9a24b" stroke-width="1.4"/><circle cx="14" cy="14" r="2" fill="#c9a24b"/></svg></div>
+    <div class="corner bl"><svg viewBox="0 0 34 34" fill="none"><path d="M2 2 C10 2 14 6 14 14 C14 6 22 2 30 2" stroke="#c9a24b" stroke-width="1.4"/><circle cx="14" cy="14" r="2" fill="#c9a24b"/></svg></div>
+    <div class="corner br"><svg viewBox="0 0 34 34" fill="none"><path d="M2 2 C10 2 14 6 14 14 C14 6 22 2 30 2" stroke="#c9a24b" stroke-width="1.4"/><circle cx="14" cy="14" r="2" fill="#c9a24b"/></svg></div>
+
+    <div class="arch">
+      <svg viewBox="0 0 300 40" fill="none">
+        <path d="M0 40 Q150 -10 300 40" stroke="#c9a24b" stroke-width="1.2"/>
+        <path d="M20 40 Q150 6 280 40" stroke="#c9a24b" stroke-width="0.7" opacity="0.6"/>
+        <circle cx="150" cy="10" r="3" fill="#c9a24b"/>
+      </svg>
+    </div>
+
+    <div class="invocation">
+      <span class="om">ॐ</span>
+      <div class="invocation-text">श्री गणेशाय नमः</div>
+    </div>
+
+    <div class="toran">
+      <svg viewBox="0 0 300 34" preserveAspectRatio="none" fill="none">
+        <path d="M0 4 Q75 22 150 4 Q225 22 300 4" stroke="#c9a24b" stroke-width="1" opacity="0.7"/>
+        <g fill="#2f4538">
+          <path d="M18 4 q6 10 0 20 q-6 -10 0 -20Z"/>
+          <path d="M63 8 q6 10 0 20 q-6 -10 0 -20Z"/>
+          <path d="M108 4 q6 10 0 20 q-6 -10 0 -20Z"/>
+          <path d="M153 9 q6 10 0 20 q-6 -10 0 -20Z"/>
+          <path d="M198 4 q6 10 0 20 q-6 -10 0 -20Z"/>
+          <path d="M243 8 q6 10 0 20 q-6 -10 0 -20Z"/>
+          <path d="M282 4 q6 10 0 20 q-6 -10 0 -20Z"/>
+        </g>
+        <g fill="#c9a24b">
+          <circle cx="18" cy="24" r="1.6"/>
+          <circle cx="63" cy="28" r="1.6"/>
+          <circle cx="108" cy="24" r="1.6"/>
+          <circle cx="153" cy="29" r="1.6"/>
+          <circle cx="198" cy="24" r="1.6"/>
+          <circle cx="243" cy="28" r="1.6"/>
+          <circle cx="282" cy="24" r="1.6"/>
+        </g>
+      </svg>
+    </div>
+
     <div class="feather-wrap">
       <svg viewBox="0 0 100 100" fill="none">
         <path d="M50 90 C50 60 30 55 30 35 C30 20 40 10 50 8 C60 10 70 20 70 35 C70 55 50 60 50 90Z"
@@ -428,7 +588,7 @@
      EDIT YOUR WEDDING DETAILS HERE
      ========================================================= */
   const CONFIG = {
-    brideName: "Priyanka",
+   brideName: "Priyanka",
     groomName: "Shyam",
     // ISO datetime used for the countdown + calendar link
     dateTimeISO: "2026-11-25T18:30:00+05:30",
@@ -493,6 +653,42 @@
   updateCountdown();
   setInterval(updateCountdown, 60000);
 
+  // mandala corner petals (drawn once)
+  const petalsGroup = document.getElementById('petalsMandala');
+  for (let i = 0; i < 12; i++) {
+    const angle = (i / 12) * 360;
+    const p = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+    p.setAttribute('d', 'M100 20 C104 30 104 34 100 40 C96 34 96 30 100 20Z');
+    p.setAttribute('transform', `rotate(${angle} 100 100)`);
+    p.setAttribute('fill', '#c9a24b');
+    p.setAttribute('opacity', '0.5');
+    petalsGroup.appendChild(p);
+  }
+
+  // background music: plays once the guest opens the envelope (user gesture),
+  // toggle button lets them mute/unmute any time.
+  const bgMusic = document.getElementById('bgMusic');
+  const musicToggle = document.getElementById('musicToggle');
+  let musicStarted = false;
+
+  function playMusic() {
+    bgMusic.play().then(() => {
+      musicStarted = true;
+      musicToggle.classList.remove('paused');
+      musicToggle.title = 'Pause music';
+    }).catch(() => { /* file missing or blocked — silently ignore */ });
+  }
+
+  musicToggle.addEventListener('click', () => {
+    if (bgMusic.paused) {
+      playMusic();
+    } else {
+      bgMusic.pause();
+      musicToggle.classList.add('paused');
+      musicToggle.title = 'Play music';
+    }
+  });
+
   // envelope open interaction
   const envelope = document.getElementById('envelope');
   const panel = document.getElementById('panel');
@@ -500,6 +696,7 @@
   envelope.addEventListener('click', () => {
     if (envelope.classList.contains('open')) return;
     envelope.classList.add('open');
+    if (!musicStarted) playMusic();
     setTimeout(() => {
       wrap.style.display = 'none';
       panel.classList.add('show');
