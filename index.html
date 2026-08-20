@@ -13,7 +13,7 @@
 <!-- the ?v=1 below to ?v=2 (etc) so it re-fetches instead of showing the old cached one -->
 <meta property="og:title" content="You're Invited! 💍">
 <meta property="og:description" content="Priyanka & Shyam • 25th Nov 2026 • Sri Jagannath Banquet Hall, Ranchi. Tap to open your invitation ✨">
-<meta property="og:image" content="https://nc-guy.github.io/wedding-invite/assets/preview.jpg?v=1">
+<meta property="og:image" content="https://nc-guy.github.io/wedding-invite/assets/preview.jpg?v=2">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta property="og:type" content="website">
@@ -379,26 +379,45 @@
   }
 
   .guest-block {
-    margin-top: 14px;
+    margin: 14px 0 26px;
   }
   .guest-label {
+    display: inline;
     font-family: 'Cormorant Garamond', serif;
     font-style: italic;
-    font-size: 15px;
+    font-weight: 600;
+    font-size: clamp(17px, 4.3vw, 21px);
     color: #6b4a2a;
     letter-spacing: 0.01em;
   }
   .guest-name {
-    display: block;
-    font-family: 'Yeseva One', cursive;
-    font-size: clamp(24px, 6.5vw, 32px);
-    line-height: 1.3;
-    margin-top: 4px;
-    background: linear-gradient(180deg, #7a2432 0%, var(--maroon) 55%, #4a1420 100%);
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
-    filter: drop-shadow(0 1px 0 rgba(255,255,255,0.5));
+    display: inline;
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-weight: 600;
+    font-size: clamp(17px, 4.3vw, 21px);
+    color: #8a3b45;
+    letter-spacing: 0.015em;
+    margin-left: 6px;
+  }
+  .guest-sub {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 15px;
+    color: #6b4a2a;
+    margin-top: 8px;
+    line-height: 1.4;
+  }
+
+  .panel.show .guest-block {
+    animation: fadeRise 0.7s ease both 0.25s;
+  }
+  .panel.show .names {
+    animation: fadeRise 0.7s ease both 0.4s, shimmer 5s ease-in-out infinite 1.1s;
+  }
+  @keyframes fadeRise {
+    from { opacity: 0; transform: translateY(10px); }
+    to   { opacity: 1; transform: translateY(0); }
   }
 
   .names {
@@ -662,11 +681,12 @@
     <div class="eyebrow">Together with their families</div>
 
     <div class="guest-block">
-      <div class="guest-label">With love, this invitation is written for</div>
-      <span class="guest-name" id="guestName">Our Beloved Guest</span>
+      <span class="guest-label">Dear</span>
+      <span class="guest-name" id="guestName">Guest,</span>
+      <div class="guest-sub">we joyfully invite you to celebrate</div>
     </div>
 
-    <div class="eyebrow" style="margin-top:14px;">To celebrate the wedding of</div>
+    <div class="eyebrow">To celebrate the wedding of</div>
 
     <h1 class="names">
       <span id="brideName">Ananya</span>
@@ -738,7 +758,7 @@
   const params = new URLSearchParams(window.location.search);
   const guest = params.get('name');
   if (guest) {
-    document.getElementById('guestName').textContent = decodeURIComponent(guest);
+    document.getElementById('guestName').textContent = decodeURIComponent(guest) + ',';
     document.title = `${CONFIG.brideName} & ${CONFIG.groomName}'s Wedding — for ${decodeURIComponent(guest)}`;
   }
 
